@@ -1,7 +1,7 @@
 {
     "name": "pucalc",
     "version": "0.1.0",
-    "homepage": "https://maximlamare.github.io/SH-PU-Calculator",
+    "homepage": "https://blazpavlica.github.io/SH-PU-Calculator",
     "private": true,
     "type": "module",
     "prettier": {
@@ -39,7 +39,6 @@
         "build": "vite build",
         "preview": "vite preview",
         "predeploy": "npm run build",
-        "deploy": "npm run build && cp -r dist/* . && git add . && git commit -m 'Deploy to main' && git push",
         "format": "npx @biomejs/biome check --write ./src",
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
     },
