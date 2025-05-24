@@ -1,82 +1,48 @@
-import React, { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 import AreaBox from "./components/Geo/AreaBox.jsx";
 import GeoJSONAreaCalculator from "./components/Geo/GeoJSONAreaCalculator.jsx";
 import MapComponent from "./components/Geo/MapComponent.jsx";
 import HeaderLogo from "./components/Header.jsx";
 import Parameters from "./components/Parameters.jsx";
 import PUBox from "./components/Results.jsx";
+import { computeArea } from "./js/functions/geoCalculations";
+import { useSelector, useDispatch } from "react-redux";
+import { setArea } from "./js/features/geo.js";
 
 const App = () => {
-	const [geoJSONData, setGeoJSONData] = useState(null);
-	const [newGeoJSONData, setNewGeoJSONData] = useState(null);
-	const [area, setArea] = useState(0);
-	const [PUs, setPUs] = useState(0);
-	const [computeClicked, setComputeClicked] = useState(false);
-	const [reset, setReset] = useState(false);
-	const clearGeoJSONRef = useRef(null);
+    const dispatch = useDispatch();
+    const [geoJSONData, setGeoJSONData] = useState(null);
 
-	const handleAreaUpdate = useCallback((newArea) => {
-		setArea(newArea);
-	}, []);
+    const clearGeoJSONRef = useRef(null);
 
-	const handleComputePUs = useCallback((result) => {
-		setPUs(result);
-		setComputeClicked(true);
-		setReset(false);
-	}, []);
+    const handleGeoJSONUpdate = useCallback((data) => {
+        const polygons = data.features;
+        const newTotalArea = polygons.reduce(
+            (sum, polygon) => sum + computeArea(polygon),
+            0,
+        );
+        dispatch(setArea(newTotalArea));
+        setGeoJSONData(data);
+    }, []);
 
-	const handleReset = useCallback(() => {
-		setPUs(null);
-		setComputeClicked(false);
-		setReset(true);
-	}, []);
+    return (
+        <div className="App">
+            <div id="code-editor-modal" />
+            <div className="flex items-center justify-between lg:flex-row flex-co p-4 lg:x-4 bg-blue-500">
+                <HeaderLogo />
+            </div>
 
-	const clearGeoJSONData = () => {
-		setGeoJSONData(null);
-		setArea(0);
-		if (clearGeoJSONRef.current) {
-			clearGeoJSONRef.current();
-		}
-	};
-
-	const handleGeoJSONUpload = useCallback((data) => {
-		setGeoJSONData(data);
-	}, []);
-
-	const handleGeoJSONUpdate = useCallback((data) => {
-		setNewGeoJSONData(data);
-	}, []);
-
-	return (
-		<div className="App">
-			<div id="code-editor-modal" />
-			<div className="flex items-center justify-between lg:flex-row flex-co p-4 lg:x-4 bg-blue-500">
-				<HeaderLogo />
-			</div>
-
-			<div className="grid gap-4 p-4 lg:px-4 grid-cols-2">
-				<div className="flex flex-col gap-4">
-					<GeoJSONAreaCalculator
-						onGeoJSONUpload={handleGeoJSONUpload}
-						onClearGeoJSON={clearGeoJSONData}
-					/>
-					<AreaBox area={area} />
-					<Parameters
-						geoJSONData={newGeoJSONData}
-						onComputePUs={handleComputePUs}
-						onReset={handleReset}
-					/>
-					<PUBox PUs={PUs} computeClicked={computeClicked} reset={reset} />
-				</div>
-				<MapComponent
-					onAreaUpdate={handleAreaUpdate}
-					geoJSONData={geoJSONData}
-					clearGeoJSONRef={clearGeoJSONRef}
-					onGeoJSONUpdate={handleGeoJSONUpdate}
-				/>
-			</div>
-		</div>
-	);
+            <div className="grid gap-4 p-4 lg:px-4 grid-cols-2">
+                <div className="flex flex-col gap-4">
+                    <GeoJSONAreaCalculator />
+                    <AreaBox />
+                    <Parameters />
+                    <PUBox />
+                </div>
+                <MapComponent />
+            </div>
+        </div>
+    );
 };
 
 export default App;

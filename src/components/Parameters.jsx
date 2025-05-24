@@ -1,25 +1,41 @@
-import React, { useState } from "react";
-import { calculateAutoDimensions } from "../js/functions/geoCalculations";
-import { totalPuContribution } from "../js/functions/puContributors";
+import { useSelector, useDispatch } from "react-redux";
+import {
+    reset,
+    setResolution,
+    setResolutionClass,
+    setMosaicking,
+    setInputBands,
+    setDataType,
+    setInputSamples,
+} from "../js/features/parameters";
+import {
+    setPUs,
+    setComputeClicked,
+    setResetClicked,
+} from "../js/features/results";
 
-const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
-    const [mosaicking, setMosaicking] = useState("SIMPLE"); // Add state for mosaicking
-    const [resolution, setResolution] = useState(10);
-    const [resolutionClass, setResolutionClass] = useState(1);
-    const [inputBands, setInputBands] = useState(3);
-    const [dataType, setDataType] = useState("8bit");
-    const [inputSamples, setInputSamples] = useState(1); // Add state for the extra number input
-
+const Parameters = ({}) => {
+    const dispatch = useDispatch();
+    const geoJSONData = useSelector((state) => state.geo.geoJSON);
+    const resolution = useSelector((state) => state.parameters.resolution);
+    const resolutionClass = useSelector(
+        (state) => state.parameters.resolutionClass,
+    );
+    const mosaicking = useSelector((state) => state.parameters.mosaicking);
+    const inputBands = useSelector((state) => state.parameters.inputBands);
+    const dataType = useSelector((state) => state.parameters.dataType);
+    const inputSamples = useSelector((state) => state.parameters.inputSamples);
     const handleMosaickingChange = (e) => {
-        setMosaicking(e.target.value);
+        dispatch(setMosaicking(e.target.value));
         if (e.target.value === "SIMPLE") {
-            setInputSamples(1);
+            dispatch(setInputSamples(1));
         }
     };
-    const handleInputBandsChange = (e) => setInputBands(e.target.value);
-    const handleDataTypeChange = (e) => setDataType(e.target.value);
+    const handleInputBandsChange = (e) =>
+        dispatch(setInputBands(e.target.value));
+    const handleDataTypeChange = (e) => dispatch(setDataType(e.target.value));
     const handleInputSamplesChange = (e) => {
-        setInputSamples(e.target.value);
+        dispatch(setInputSamples(e.target.value));
     };
 
     const resolutionMapping = {
@@ -36,12 +52,12 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
     };
     const handleResolutionClassChange = (e) => {
         const key = e.target.value;
-        setResolutionClass(key);
-        setResolution(resolutionMapping[key].value);
+        dispatch(setResolutionClass(key));
+        dispatch(setResolution(resolutionMapping[key].value));
     };
     const handleResolutionChange = (e) => {
         const value = e.target.value;
-        setResolution(value);
+        dispatch(setResolution(value));
     };
 
     const handleComputePUs = () => {
@@ -50,7 +66,9 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
             !geoJSONData.features ||
             geoJSONData.features.length === 0
         ) {
-            onComputePUs(null);
+            dispatch(setPUs(0));
+            dispatch(setComputeClicked(true));
+            dispatch(setReset(false));
             return;
         }
         // Get height and width from geoJSONData
@@ -65,18 +83,16 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
             dataType,
             inputSamples,
         );
-        onComputePUs(result);
+        dispatch(setPUs(result));
+        dispatch(setComputeClicked(true));
+        dispatch(setResetClicked(false));
     };
 
     const handleReset = () => {
-        setMosaicking("SIMPLE");
-        setResolutionClass("S210");
-        setInputSamples(1);
-        setResolution(10);
-        setInputBands(3);
-        setDataType("8bit");
-        onComputePUs(null);
-        onReset(true);
+        dispatch(reset());
+        dispatch(setPUs(0));
+        dispatch(setComputeClicked(false));
+        dispatch(setResetClicked(true));
     };
 
     return (
@@ -84,7 +100,7 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
             <div className="flex flex-col items-start w-full">
                 <h2 className="text-lg font-bold mb-4">Request Parameters</h2>
                 <div className="mb-4">
-                    <label for="mosaick">
+                    <label>
                         <a
                             href="https://docs.sentinel-hub.com/api/latest/evalscript/v3/#mosaicking"
                             target="_blank"
@@ -107,7 +123,7 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
                 </div>
                 {mosaicking === "ORBIT" || mosaicking === "TILE" ? (
                     <div className="mb-4">
-                        <label for="number">
+                        <label>
                             Number of{" "}
                             <a
                                 href="https://docs.sentinel-hub.com/api/latest/evalscript/v3/#samples"
@@ -129,7 +145,7 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
                     </div>
                 ) : null}
                 <div className="mb-4">
-                    <label for="resolution">Resolution (m):</label>
+                    <label>Resolution (m):</label>
                     <select
                         name="resolution"
                         value={resolutionClass}
@@ -148,7 +164,7 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
                 </div>
                 {resolutionClass === "OTHER" ? (
                     <div className="mb-4">
-                        <label for="custom">Custom Resolution (m):</label>
+                        <label>Custom Resolution (m):</label>
                         <input
                             name="custom"
                             type="number"
@@ -159,7 +175,7 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
                     </div>
                 ) : null}
                 <div className="mb-4">
-                    <label for="bands">
+                    <label>
                         Number of{" "}
                         <a
                             href="https://docs.sentinel-hub.com/api/latest/evalscript/v3/#input-object-properties"
@@ -180,7 +196,7 @@ const Parameters = ({ geoJSONData, onComputePUs, onReset }) => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label for="bit">
+                    <label>
                         <a
                             href="https://docs.sentinel-hub.com/api/latest/evalscript/v3/#sampletype"
                             target="_blank"
