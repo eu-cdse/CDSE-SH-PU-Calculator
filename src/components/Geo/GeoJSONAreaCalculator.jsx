@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Tooltip from "../Tooltip/Tooltip";
 import { useDispatch } from "react-redux";
-import { setGeoJSON, clearGeoJSON } from "../../js/features/geo";
+import { setGeoJSON, clearGeoJSON } from "../../js/slices/geo";
 
 const GeoJSONAreaCalculator = ({}) => {
     const dispatch = useDispatch();
@@ -33,7 +33,6 @@ const GeoJSONAreaCalculator = ({}) => {
         reader.onload = (e) => {
             try {
                 const geoJSON = JSON.parse(e.target.result);
-                // onGeoJSONUpload(geoJSON);
                 dispatch(setGeoJSON(geoJSON));
                 setError(null);
             } catch (error) {

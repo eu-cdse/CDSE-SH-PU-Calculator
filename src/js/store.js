@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import parametersSlice from "./features/parameters";
-import geoSlice from "./features/geo";
-import resultsSlice from "./features/results";
+import parametersSlice from "./slices/parameters";
+import geoSlice from "./slices/geo";
+import resultsSlice from "./slices/results";
 
 export default configureStore({
     reducer: {

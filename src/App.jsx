@@ -1,30 +1,26 @@
-import { useState, useRef, useCallback } from "react";
+import { useEffect } from "react";
 import AreaBox from "./components/Geo/AreaBox.jsx";
 import GeoJSONAreaCalculator from "./components/Geo/GeoJSONAreaCalculator.jsx";
 import MapComponent from "./components/Geo/MapComponent.jsx";
 import HeaderLogo from "./components/Header.jsx";
 import Parameters from "./components/Parameters.jsx";
 import PUBox from "./components/Results.jsx";
-import { computeArea } from "./js/functions/geoCalculations";
 import { useSelector, useDispatch } from "react-redux";
-import { setArea } from "./js/features/geo.js";
+import { setArea } from "./js/slices/geo.js";
+import { computeArea } from "./js/functions/geoCalculations.js";
 
 const App = () => {
     const dispatch = useDispatch();
-    const [geoJSONData, setGeoJSONData] = useState(null);
+    const geoJSONData = useSelector((state) => state.geo.geoJSON);
 
-    const clearGeoJSONRef = useRef(null);
-
-    const handleGeoJSONUpdate = useCallback((data) => {
-        const polygons = data.features;
+    useEffect(() => {
+        const polygons = geoJSONData.features;
         const newTotalArea = polygons.reduce(
             (sum, polygon) => sum + computeArea(polygon),
             0,
         );
         dispatch(setArea(newTotalArea));
-        setGeoJSONData(data);
-    }, []);
-
+    }, [geoJSONData]);
     return (
         <div className="App">
             <div id="code-editor-modal" />

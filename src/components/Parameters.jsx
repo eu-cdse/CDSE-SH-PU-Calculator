@@ -7,12 +7,14 @@ import {
     setInputBands,
     setDataType,
     setInputSamples,
-} from "../js/features/parameters";
+} from "../js/slices/parameters";
 import {
     setPUs,
     setComputeClicked,
     setResetClicked,
-} from "../js/features/results";
+} from "../js/slices/results";
+import { calculateAutoDimensions } from "../js/functions/geoCalculations";
+import { totalPuContribution } from "../js/functions/puContributors";
 
 const Parameters = ({}) => {
     const dispatch = useDispatch();

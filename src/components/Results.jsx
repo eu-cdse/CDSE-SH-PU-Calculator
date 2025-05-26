@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-const PUBox = ({}) => {
+const PUBox = () => {
     const PUs = useSelector((state) => state.results.PUs);
     const computeClicked = useSelector((state) => state.results.computeClicked);
     const reset = useSelector((state) => state.results.resetClicked);
