@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import Tooltip from "../Tooltip/Tooltip";
 import { useDispatch } from "react-redux";
 import { setGeoJSON, clearGeoJSON } from "../../js/slices/geo";
@@ -62,13 +62,18 @@ const GeoJSONAreaCalculator = ({}) => {
                 </div>
             </h2>
             <div className="flex items-center space-x-4">
-                <input
-                    type="file"
-                    accept=".geojson"
-                    onChange={handleFileChange}
-                    ref={fileInputRef}
-                    className="flex-grow max-w-full overflow-hidden whitespace-nowrap text-ellipsis bg-white p-1 border-gray-200 border"
-                />
+                <div className="flex flex-col">
+                    <input
+                        type="file"
+                        accept=".geojson"
+                        onChange={handleFileChange}
+                        ref={fileInputRef}
+                        className="flex-grow max-w-full overflow-hidden whitespace-nowrap text-ellipsis bg-white p-1 border-gray-200 border"
+                    />
+                    <div className="p-1">
+                        Click here to choose a GeoJSON file.
+                    </div>
+                </div>
                 <button
                     type="button"
                     onClick={handleUploadGeoJSON}
