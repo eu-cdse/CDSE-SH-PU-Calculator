@@ -15,27 +15,22 @@ const MapComponent = () => {
     const deleting = useSelector((state) => state.geo.deleting);
     const geoJSONData = useSelector((state) => state.geo.geoJSON);
     useEffect(() => {
-        if (!mapRef.current || !featureGroupRef.current) {
-            return;
-        }
+        if (!mapRef.current || !featureGroupRef.current) return;
         const currentFeatureGroup = featureGroupRef.current;
         currentFeatureGroup.clearLayers();
-        if (geoJSONData.features.length) {
-            geoJSONData.features.forEach((feature) => {
-                const layer = L.geoJson(feature);
-                layer.on("click", (ev) => {
-                    if (deleting) {
-                        dispatch(
-                            removeFeature(ev.layer.feature.properties.name),
-                        );
-                    }
-                });
-                layer.addTo(currentFeatureGroup);
+        if (!geoJSONData.features?.length) return;
+        geoJSONData.features.forEach((feature) => {
+            const layer = L.geoJson(feature);
+            layer.on("click", (ev) => {
+                if (deleting) {
+                    dispatch(removeFeature(ev.layer.feature.properties.name));
+                }
             });
-            const geoJSONLayer = L.geoJSON(geoJSONData);
-            const bounds = geoJSONLayer.getBounds();
-            mapRef.current.fitBounds(bounds);
-        }
+            layer.addTo(currentFeatureGroup);
+        });
+        const geoJSONLayer = L.geoJSON(geoJSONData);
+        const bounds = geoJSONLayer.getBounds();
+        mapRef.current.fitBounds(bounds);
     }, [geoJSONData, deleting]);
 
     return (
