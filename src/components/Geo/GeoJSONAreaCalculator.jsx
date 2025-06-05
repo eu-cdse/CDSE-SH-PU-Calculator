@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { clearGeoJSON, setGeoJSON } from "../../js/slices/geo";
+import { clearGeoJSON, setArea, setGeoJSON } from "../../js/slices/geo";
 import Tooltip from "../Tooltip/Tooltip";
+import { computeArea } from "../../js/functions/geoCalculations";
 
 const GeoJSONAreaCalculator = () => {
     const dispatch = useDispatch();
@@ -32,9 +33,31 @@ const GeoJSONAreaCalculator = () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
+                let featureCollection = {
+                    type: "FeatureCollection",
+                    features: [],
+                };
                 const geoJSON = JSON.parse(e.target.result);
-                console.log(geoJSON);
-                dispatch(setGeoJSON(geoJSON));
+                if (geoJSON.type === "FeatureCollection") {
+                    featureCollection = geoJSON;
+                } else {
+                    if (geoJSON.type === "Feature") {
+                        featureCollection.features = [geoJSON];
+                    } else {
+                        featureCollection.features = [
+                            {
+                                type: "Feature",
+                                geometry: geoJSON,
+                            },
+                        ];
+                    }
+                }
+                const newTotalArea = featureCollection.features.reduce(
+                    (sum, polygon) => sum + computeArea(polygon),
+                    0,
+                );
+                dispatch(setArea(newTotalArea));
+                dispatch(setGeoJSON(featureCollection));
                 setError(null);
             } catch (error) {
                 console.error("Error reading GeoJSON file:", error);
@@ -56,7 +79,9 @@ const GeoJSONAreaCalculator = () => {
                     <div className="text-lg font-bold mr-2">GeoJSON file:</div>
                     <Tooltip
                         infoStyles="ml-1"
-                        content="Upload a GeoJSON file containing a polygon or multi-polygons of your AOI. Alternatively, you can draw a polygon on the map."
+                        content="Upload a GeoJSON file containing a polygon or multi-polygons of your AOI.
+                        The expected format is EPSG:4326.
+                        Alternatively, you can draw a polygon on the map."
                         direction="right"
                         wrapperClassName="tooltip-content"
                     />
@@ -72,7 +97,8 @@ const GeoJSONAreaCalculator = () => {
                         className="flex-grow max-w-full overflow-hidden whitespace-nowrap text-ellipsis bg-white p-1 border-gray-200 border"
                     />
                     <div className="p-1">
-                        Click here to choose a GeoJSON file.
+                        Click here to choose a GeoJSON file. The expected format
+                        is EPSG:4326.
                     </div>
                 </div>
                 <button

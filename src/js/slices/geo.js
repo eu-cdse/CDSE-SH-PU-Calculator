@@ -17,19 +17,6 @@ export const geoSlice = createSlice({
         clearGeoJSON: (state) => {
             state.geoJSON = { type: "FeatureCollection", features: [] };
         },
-        addFeature: (state, action) => {
-            state.geoJSON.features = state.geoJSON.features.concat(
-                action.payload,
-            );
-        },
-        removeFeature: (state, action) => {
-            state.geoJSON.features = state.geoJSON.features.filter(
-                (feature) => feature.properties.name !== action.payload,
-            );
-        },
-        toggleDeleting: (state) => {
-            state.deleting = !state.deleting;
-        },
     },
 });
 export const {

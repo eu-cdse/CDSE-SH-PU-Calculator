@@ -6,22 +6,8 @@ import MapComponent from "./components/Geo/MapComponent.jsx";
 import HeaderLogo from "./components/Header.jsx";
 import Parameters from "./components/Parameters.jsx";
 import PUBox from "./components/Results.jsx";
-import { computeArea } from "./js/functions/geoCalculations.js";
-import { setArea } from "./js/slices/geo.js";
 
 const App = () => {
-    const dispatch = useDispatch();
-    const geoJSONData = useSelector((state) => state.geo.geoJSON);
-
-    useEffect(() => {
-        if (!geoJSONData.features?.length) return;
-        const polygons = geoJSONData.features;
-        const newTotalArea = polygons.reduce(
-            (sum, polygon) => sum + computeArea(polygon),
-            0,
-        );
-        dispatch(setArea(newTotalArea));
-    }, [geoJSONData, dispatch]);
     return (
         <div className="App">
             <div id="code-editor-modal" />
