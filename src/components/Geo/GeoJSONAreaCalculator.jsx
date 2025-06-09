@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { clearGeoJSON, setArea, setGeoJSON } from "../../js/slices/geo";
 import Tooltip from "../Tooltip/Tooltip";
 import { computeArea } from "../../js/functions/geoCalculations";
+import { setPUs } from "../../js/slices/results";
 
 const GeoJSONAreaCalculator = () => {
     const dispatch = useDispatch();
@@ -22,6 +23,8 @@ const GeoJSONAreaCalculator = () => {
             fileInputRef.current.value = "";
         }
         dispatch(clearGeoJSON());
+        dispatch(setArea(0));
+        dispatch(setPUs(0));
     };
 
     const handleUploadGeoJSON = () => {
@@ -80,7 +83,7 @@ const GeoJSONAreaCalculator = () => {
                     <Tooltip
                         infoStyles="ml-1"
                         content="Upload a GeoJSON file containing a polygon or multi-polygons of your AOI.
-                        The expected format is EPSG:4326.
+                        The expected CRS for the GeoJSON is EPSG:4326.
                         Alternatively, you can draw a polygon on the map."
                         direction="right"
                         wrapperClassName="tooltip-content"
@@ -97,8 +100,8 @@ const GeoJSONAreaCalculator = () => {
                         className="flex-grow max-w-full overflow-hidden whitespace-nowrap text-ellipsis bg-white p-1 border-gray-200 border"
                     />
                     <div className="p-1">
-                        Click here to choose a GeoJSON file. The expected format
-                        is EPSG:4326.
+                        Click here to choose a GeoJSON file. The expected CRS
+                        for the GeoJSON is EPSG:4326.
                     </div>
                 </div>
                 <button

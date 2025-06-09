@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import AreaBox from "./components/Geo/AreaBox.jsx";
 import GeoJSONAreaCalculator from "./components/Geo/GeoJSONAreaCalculator.jsx";
 import MapComponent from "./components/Geo/MapComponent.jsx";
