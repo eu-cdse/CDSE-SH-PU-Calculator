@@ -2,7 +2,7 @@ const HeaderLogo = () => {
     return (
         <div className="flex items-center px-4">
             <img
-                src={"./copernicus.png"}
+                src={"./cdse-logo.png"}
                 className="sm:w-48 w-24 h-auto"
                 alt="logo"
             />

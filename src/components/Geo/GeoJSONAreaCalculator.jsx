@@ -100,8 +100,8 @@ const GeoJSONAreaCalculator = () => {
                         className="flex-grow max-w-full overflow-hidden whitespace-nowrap text-ellipsis bg-white p-1 border-gray-200 border"
                     />
                     <div className="p-1">
-                        Click here to choose a GeoJSON file. The expected CRS
-                        for the GeoJSON is EPSG:4326.
+                        Click anywhere in the box above to choose a GeoJSON
+                        file. The expected CRS for the GeoJSON is EPSG:4326.
                     </div>
                 </div>
                 <button
