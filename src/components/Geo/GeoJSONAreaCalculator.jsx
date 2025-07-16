@@ -90,7 +90,7 @@ const GeoJSONAreaCalculator = () => {
                     />
                 </div>
             </h2>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 flex-col sm:flex-row">
                 <div className="flex flex-col">
                     <input
                         type="file"
@@ -100,24 +100,26 @@ const GeoJSONAreaCalculator = () => {
                         className="flex-grow max-w-full overflow-hidden whitespace-nowrap text-ellipsis bg-white p-1 border-gray-200 border"
                     />
                     <div className="p-1">
-                        Click here to choose a GeoJSON file. The expected CRS
-                        for the GeoJSON is EPSG:4326.
+                        Click anywhere in the box above to choose a GeoJSON
+                        file. The expected CRS for the GeoJSON is EPSG:4326.
                     </div>
                 </div>
-                <button
-                    type="button"
-                    onClick={handleUploadGeoJSON}
-                    className="flex justify-right items-center bg-green-500 ml-auto py-2 px-4 text-black font-bold"
-                >
-                    Upload file
-                </button>
-                <button
-                    type="button"
-                    onClick={handleClear}
-                    className="bg-white border-green-500 border py-2 px-4 text-gray-900"
-                >
-                    Clear AOI
-                </button>
+                <div className="flex space-x-4">
+                    <button
+                        type="button"
+                        onClick={handleUploadGeoJSON}
+                        className="flex justify-right items-center bg-green-500 ml-auto py-2 px-4 text-black font-bold"
+                    >
+                        Upload file
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleClear}
+                        className="bg-white border-green-500 border py-2 px-4 text-gray-900"
+                    >
+                        Clear AOI
+                    </button>
+                </div>
             </div>
             {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
