@@ -41,15 +41,15 @@ const Parameters = () => {
     };
 
     const resolutionMapping = {
-        S1HIW: { value: 10, text: "Sentinel-1 HIGH IW/SM - 10m" },
-        S1HEW: { value: 25, text: "Sentinel-1 HIGH EW - 25m" },
-        S1M: { value: 40, text: "Sentinel-1 MEDIUM - 40m" },
-        S210: { value: 10, text: "Sentinel-2: 10m" },
-        S3OLCIL1B: { value: 300, text: "Sentinel-3 OLCI L1B - 300m" },
-        S3OLCIL2: { value: 300, text: "Sentinel-3 OLCI L2 - 300m" },
-        S3SLSTRL1B: { value: 500, text: "Sentinel-3 SLSTR1B L1B - 500m" },
-        S5: { value: 7000, text: "Sentinel-5P - 7km" },
-        DEM: { value: 30, text: "Digital Elevation Model - 30m" },
+        S1HIW: { value: 10, text: "Sentinel-1 HIGH IW/SM - 10 m" },
+        S1HEW: { value: 25, text: "Sentinel-1 HIGH EW - 25 m" },
+        S1M: { value: 40, text: "Sentinel-1 MEDIUM - 40 m" },
+        S210: { value: 10, text: "Sentinel-2: 10 m" },
+        S3OLCIL1B: { value: 300, text: "Sentinel-3 OLCI L1B - 300 m" },
+        S3OLCIL2: { value: 300, text: "Sentinel-3 OLCI L2 - 300 m" },
+        S3SLSTRL1B: { value: 500, text: "Sentinel-3 SLSTR1B L1B - 500 m" },
+        S5: { value: 7000, text: "Sentinel-5P - 7 km" },
+        DEM: { value: 30, text: "Digital Elevation Model - 30 m" },
         OTHER: { value: 1, text: "Other" },
     };
     const handleResolutionClassChange = (e) => {
@@ -104,7 +104,7 @@ const Parameters = () => {
                 <div className="mb-4">
                     <label>
                         <a
-                            href="https://docs.sentinel-hub.com/api/latest/evalscript/v3/#mosaicking"
+                            href="https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Evalscript/V3.html#mosaicking"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -128,7 +128,7 @@ const Parameters = () => {
                         <label>
                             Number of{" "}
                             <a
-                                href="https://docs.sentinel-hub.com/api/latest/evalscript/v3/#samples"
+                                href="https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Evalscript/V3.html#samples"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-shgreen"
@@ -180,7 +180,7 @@ const Parameters = () => {
                     <label>
                         Number of{" "}
                         <a
-                            href="https://docs.sentinel-hub.com/api/latest/evalscript/v3/#input-object-properties"
+                            href="https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Evalscript/V3.html#input-object-properties"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-shgreen"
@@ -200,7 +200,7 @@ const Parameters = () => {
                 <div className="mb-4">
                     <label>
                         <a
-                            href="https://docs.sentinel-hub.com/api/latest/evalscript/v3/#sampletype"
+                            href="https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Evalscript/V3.html#sampletype"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-shgreen"

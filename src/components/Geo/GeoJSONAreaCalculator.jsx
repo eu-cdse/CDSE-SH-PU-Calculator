@@ -90,7 +90,7 @@ const GeoJSONAreaCalculator = () => {
                     />
                 </div>
             </h2>
-            <div className="flex items-center space-x-4 flex-col sm:flex-row">
+            <div className="flex items-stretch sm:space-x-4 flex-col sm:flex-row">
                 <div className="flex flex-col">
                     <input
                         type="file"
@@ -104,7 +104,7 @@ const GeoJSONAreaCalculator = () => {
                         file. The expected CRS for the GeoJSON is EPSG:4326.
                     </div>
                 </div>
-                <div className="flex space-x-4">
+                <div className="flex space-x-4 items-start">
                     <button
                         type="button"
                         onClick={handleUploadGeoJSON}
